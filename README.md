@@ -29,10 +29,17 @@ This was build for [SponsorBlock](https://github.com/ajayyy/SponsorBlockServer),
 
 Simply send a request to the following endpoint for every request recieved on your service. You must hash the IP first on the service-side before sending it.
 
-**POST** `/api/v1/addIP?hashedIP=<hashed-ip-goes-here`
+**POST** `/api/v1/addIP?hashedIP=<hashed-ip-goes-here>`
 
 Then, you can get the users using the following request:
 
 **GET** `/api/v1/userCount`
+
+Response:
+
+```json
+{
+    "userCount": number
+}
 
 It will update every 48 hours and return the max number of unique users in the last 28 days.
