@@ -41,5 +41,6 @@ Response:
 {
     "userCount": number
 }
+```
 
 It will update every 48 hours and return the max number of unique users in the last 28 days.
