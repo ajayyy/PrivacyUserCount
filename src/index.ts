@@ -13,7 +13,6 @@ if (config.mode === Types.Mode.development) app.set('json spaces', 2);
 // Set production mode
 app.set('env', config.mode || Types.Mode.production);
 
-let lastUserCounts: number[] = [];
 let averageUserCount = config.defaultUserCount;
 
 let hashedIPSet = new Set();
@@ -22,10 +21,7 @@ let salt = getRandomSalt();
 setInterval(() => {
     salt = getRandomSalt();
 
-    lastUserCounts.push(hashedIPSet.size);
-    if (lastUserCounts.length > 14) lastUserCounts.pop();
-
-    averageUserCount = Math.max(...lastUserCounts);
+    averageUserCount = Math.max(averageUserCount, hashedIPSet.size);
 
     hashedIPSet.clear();
 }, 48 * 60 * 60 * 1000);
