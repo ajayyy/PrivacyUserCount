@@ -1,11 +1,12 @@
 import express from "express";
+import fs from "fs";
 const app = express();
 
 import * as Types from "./types";
 import getHash from "./getHash";
 import getRandomSalt from "./getRandomSalt";
 
-var config: Types.Config = require('../config.json');
+const config: Types.Config = getConfig();
 
 // Setup pretty JSON
 if (config.mode === Types.Mode.development) app.set('json spaces', 2);
@@ -46,3 +47,15 @@ app.get("/api/v1/userCount", (req, res) => {
 });
 
 app.listen(config.port);
+
+function getConfig(): Types.Config {
+    if (process.env.PORT) {
+        return {
+            port: parseInt(process.env.PORT),
+            mode: process.env.MODE as Types.Mode || Types.Mode.development,
+            defaultUserCount: parseInt(process.env.DEFAULT_USER_COUNT || "0")
+        };
+    }
+
+    return JSON.parse(fs.readFileSync("config.json").toString("utf8"));
+}
