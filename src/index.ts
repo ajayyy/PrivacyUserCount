@@ -34,10 +34,10 @@ app.post("/api/v1/addIP", (req, res) => {
         res.sendStatus(400);
         return;
     }
+    
+    res.sendStatus(200);
 
     hashedIPSet.add(getHash(hashedIP + salt));
-
-    res.sendStatus(200);
 });
 
 app.get("/api/v1/userCount", (req, res) => {
