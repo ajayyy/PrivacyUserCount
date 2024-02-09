@@ -14,7 +14,7 @@ if (config.mode === Types.Mode.development) app.set('json spaces', 2);
 // Set production mode
 app.set('env', config.mode || Types.Mode.production);
 
-let averageUserCount = config.defaultUserCount;
+let averageUserCount = 0;
 
 let hashedIPSet = new Set();
 
@@ -22,7 +22,7 @@ let salt = getRandomSalt();
 setInterval(() => {
     salt = getRandomSalt();
 
-    averageUserCount = Math.max(averageUserCount, hashedIPSet.size);
+    averageUserCount = hashedIPSet.size;
 
     hashedIPSet.clear();
 }, 48 * 60 * 60 * 1000);
@@ -42,7 +42,14 @@ app.post("/api/v1/addIP", (req, res) => {
 
 app.get("/api/v1/userCount", (req, res) => {
     res.send({
-        userCount: averageUserCount
+        userCount: Math.max(averageUserCount, config.defaultUserCount)
+    });
+});
+
+app.get("/api/v1/rawUserCount", (req, res) => {
+    res.send({
+        userCount: averageUserCount,
+        nextCount: hashedIPSet.size
     });
 });
 
