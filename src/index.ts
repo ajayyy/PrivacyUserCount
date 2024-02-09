@@ -25,7 +25,7 @@ setInterval(() => {
     averageUserCount = hashedIPSet.size;
 
     hashedIPSet.clear();
-}, 48 * 60 * 60 * 1000);
+}, 24 * 60 * 60 * 1000);
 
 app.post("/api/v1/addIP", (req, res) => {
     let hashedIP = req.query.hashedIP;
